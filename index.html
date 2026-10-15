@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local P2P File Share (No Internet)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .box {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px dashed #007bff;
+            border-radius: 6px;
+            text-align: center;
+            background: #f9fbff;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .status {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #eee;
+            margin-top: 5px;
+            padding: 8px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Local File Share</h2>
+        <div class="box">
+            <p><strong>Step 1:</strong> Select a file to share locally</p>
+            <input type="file" id="fileInput">
+            <button onclick="shareFile()">Share File</button>
+        </div>
+
+        <div class="status" id="statusMessage">Status: Ready to share over local network</div>
+
+        <h3>Available Files</h3>
+        <ul id="fileList">
+            <!-- Shared files will appear here -->
+        </ul>
+    </div>
+
+    <script>
+        // Simulated local sharing state for browser testing
+        const sharedFiles = [];
+
+        function shareFile() {
+            const fileInput = document.getElementById('fileInput');
+            const statusMessage = document.getElementById('statusMessage');
+            const fileList = document.getElementById('fileList');
+
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                sharedFiles.push(file);
+
+                statusMessage.innerText = `Status: "${file.name}" is ready for local peers to download!`;
+
+                // Add to list
+                const li = document.createElement('li');
+                li.innerHTML = `<span>${file.name} (${(file.size/1024).toFixed(1)} KB)</span> <a href="${URL.createObjectURL(file)}" download="${file.name}"><button style="padding:5px 10px; width:auto;">Download</button></a>`;
+                fileList.appendChild(li);
+
+                fileInput.value = '';
+            } else {
+                alert('Please select a file first.');
+            }
+        }
+    </script>
+</body>
+</html>
